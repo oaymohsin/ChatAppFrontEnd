@@ -1,0 +1,52 @@
+
+<div class="container mt-5 mb-5">
+    <div class="row justify-content-center">
+      <div class="col-md-6 ">
+        <div class="card" >
+          <div class="card-header d-flex align-items-center  justify-content-center bg-primary text-white">
+            <h1 class="text-center   m-2">Create New Group</h1>
+          </div>
+          <div class="card-body">
+            <form (ngSubmit)="createGroup()" [formGroup]="groupform"  class="m-5 d-flex flex-column justify-content-center align-items-center">
+              <div class="mb-3 w-75">
+
+                <mat-form-field class="w-100">
+                    <mat-label>Group Name</mat-label>
+                    <input matInput formControlName="groupName"   required>
+                  </mat-form-field>
+    
+              </div>
+
+              
+              <!-- <div class="mb-3 w-75">
+                <label for="email" class="form-label">Created By</label>
+                <input type="text" class="form-control p-2" id="email" name="email" formControlName="createdBy"  required>
+              </div> -->
+  
+              
+                
+                <div class="mb-3 w-75">
+                    <!-- <label for="password" class="form-label">Add Members  </label>&nbsp; &nbsp; &nbsp; &nbsp;  -->
+                    
+                    <mat-form-field class="w-100" >
+                      <mat-label>Add Members</mat-label>
+                      <mat-select formControlName="members" multiple >
+                        <mat-option *ngFor="let user of UsersList" [value]="user">{{user.username}} </mat-option>
+                      </mat-select>
+                    </mat-form-field>
+                
+                  </div>
+                  
+                  
+                <!-- <input type="text" class="form-control p-2" id="password" name="password" formControlName="members"  required> -->
+              
+  
+              <button type="submit" class="btn m-3 w-50  btn-primary">Create Group</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  

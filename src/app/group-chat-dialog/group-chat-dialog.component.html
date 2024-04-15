@@ -1,0 +1,156 @@
+<!-- chat-dialog.component.html -->
+<div class="container">
+    <h2 mat-dialog-title class="bg-primary w-100 text-white m-0" *ngIf="!groupMemberButton && !addGroupMembers">
+      Chatting with {{ group.groupName }}
+
+      <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
+        <mat-icon>more_vert</mat-icon>
+      </button>
+      <mat-menu #menu="matMenu">
+        <button mat-menu-item (click)="showGroupMembers(group._id)">
+          <i class="fa fa-users" aria-hidden="true"></i>
+          <span> &nbsp; Group Members</span>
+        </button>
+        <button mat-menu-item *ngIf="group.createdBy===myId" (click)="fetchUsersList(group._id)">
+          <i class="fa fa-plus-circle" aria-hidden="true"></i>
+          <span>&nbsp; Add Members </span>
+        </button>
+        <button mat-menu-item>
+          <i class="fa fa-sign-out" aria-hidden="true"></i>
+          <span>&nbsp; Exit Group </span>
+        </button>
+        
+        <button mat-menu-item *ngIf="group.createdBy===myId" (click)="deleteGroup(group._id)">
+          <i class="fa fa-trash" aria-hidden="true"></i>
+          <span>&nbsp; Delete Group </span>
+        </button>
+      </mat-menu>
+
+    </h2>
+
+    <h2 mat-dialog-title class="bg-primary w-100 text-white m-0" *ngIf="groupMemberButton || addGroupMembers">
+      <i class="fa fa-arrow-left" aria-hidden="true" (click)="groupMemberButton=false; addGroupMembers=false"></i>
+    </h2>
+
+    <!-- SHow group members in chat dialog box on clicking group members button -->
+    <div class="rowData" *ngIf="groupMemberButton">
+
+      <table class="table">
+        <thead>
+          <tr>
+            <!-- <th scope="col">#</th> -->
+            <th scope="col">Name</th>
+            <th scope="col" >Remove Member</th>
+            <th scope="col" >Admin</th>
+            
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let member of groupMembers">
+            <!-- <th scope="row">1</th> -->
+            <td>{{member.username}}
+              <span *ngIf="group.admins.includes(member._id) " class=" admin-badge ">
+                Admin
+              </span>
+            </td>
+            <td *ngIf="group.admins.includes(myId)"><button class="btn btn-danger btn-sm rm-member-button" (click)="leaveGroup(group._id,member._id)">Remove</button></td>
+            <!-- <td>@mdo</td> -->
+            <td *ngIf="group.admins.includes(myId) && !group.admins.includes(member._id)"><button class="btn btn-success btn-sm rm-member-button" (click)="makeAdmin(member._id,group._id)">Make Admin</button></td>
+            <td *ngIf="group.admins.includes(myId) && group.admins.includes(member._id) && group.createdBy!==member._id"><button class="btn btn-success btn-sm rm-member-button" (click)="removeAdmin(member._id,group._id)">RemoveAdmin</button></td>
+
+
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+
+    <!-- SHow all users list in chat dialog box on clicking add members button -->
+
+    <div class="rowData" *ngIf="addGroupMembers">
+
+      <table class="table">
+        <thead>
+          <tr>
+            <!-- <th scope="col">#</th> -->
+            <th scope="col">Name</th>
+            <th scope="col" >Add Member</th>
+            <!-- <th scope="col" >Admin</th> -->
+            
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let user of allUsers">
+            <!-- <th scope="row">1</th> -->
+            <td>{{user.username}}
+              <span *ngIf="group.admins.includes(user._id) " class=" admin-badge ">
+                Admin
+              </span>
+            </td>
+            <!-- <td *ngIf="group.admins.includes(myId)"><button class="btn btn-danger btn-sm rm-member-button" (click)="leaveGroup(group._id,user._id)">Remove</button></td> -->
+            <!-- <td>@mdo</td> -->
+            <td *ngIf="group.admins.includes(myId) && !group.admins.includes(user._id)"><button class="btn btn-success btn-sm rm-member-button" (click)="addToGroup(user._id,group._id)">Add to Group</button></td>
+            <!-- <td *ngIf="group.admins.includes(myId) && group.admins.includes(user._id) && group.createdBy!==user._id"><button class="btn btn-success btn-sm rm-member-button" (click)="removeAdmin(user._id,group._id)">RemoveAdmin</button></td> -->
+
+
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+
+    
+    <mat-dialog-content class="mat-typography">
+      <!-- Add your chat UI components here  -->
+       <!-- <div class="send-message-container">
+        <div *ngFor="let sentMessage of sentMessages" class="sent-message">
+          {{ sentMessage }}
+        </div>
+      </div>
+      <div class="received-message-container">
+        <div *ngFor="let Message of receivedMessages" class="sent-message">
+          {{ Message.message }}
+        </div>
+      </div> -->
+      <div class="chatUi" *ngIf="!groupMemberButton">
+        <div class="goup-chat-container">
+
+         <div  *ngFor="let chatMessage of chatMessages" class="{{ chatMessage.type }}-message">
+            <h3 class="message"> {{ chatMessage.message }} <br> </h3>
+            <p>{{chatMessage.Date}}  <span>{{chatMessage.Time}}</span></p>
+            <p>{{chatMessage.person}}</p>
+          </div>
+        </div>
+  
+        <textarea
+          [(ngModel)]="message"
+          placeholder="Type your message..."
+        ></textarea>
+        <button (click)="sendMessage(message, group._id)" class="btn btn-success">
+         Send
+        </button>
+
+      </div>
+
+    
+
+
+
+    </mat-dialog-content>
+  </div>
+  <mat-dialog-actions align="end">
+    <button mat-button mat-dialog-close>Close</button>
+    <!-- <button mat-button [mat-dialog-close]="true" cdkFocusInitial>Install</button> -->
+  </mat-dialog-actions>
+  <audio #receivedMessageTone>
+  
+    <source src="../../assets/iphone_sms_original.mp3" type="audio/mp3">
+    
+    Your browser does not support the audio element.
+  </audio>
+  
+
+
+  
+
+  

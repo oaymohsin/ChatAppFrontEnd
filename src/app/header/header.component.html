@@ -1,0 +1,158 @@
+<div class="container-fluid">
+    <nav class="navbar navbar-expand-lg navbar-dark">
+        <div class="container-fluid">
+          <!-- Logo on the left corner -->
+          <a class="navbar-brand" href="#">
+            <img src="/assets/messenger.png" alt="Logo" width="30" height="30" class="d-inline-block align-top">
+            
+          </a>
+    
+          <!-- Slogan in the middle -->
+          <div class="navbar-text mx-auto ">
+            <strong>Let's Chat</strong>
+          </div>
+    
+          <!-- Toggle button for right side buttons on smaller screens -->
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarButtons" aria-controls="navbarButtons" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+    
+          <!-- Right side buttons -->
+          <div class="collapse navbar-collapse" id="navbarButtons">
+            <ul class="navbar-nav ms-auto ">
+              <li class="nav-item" *ngIf="loginStatus">
+                <button id="friendButton" #friendButton class="btn btn-outline-light nav-link" data-bs-toggle="modal" data-bs-target="#staticBackdrop"  (click)="fetchUsers()">Friends</button>
+              </li>
+              <li class="nav-item" *ngIf="loginStatus">
+                <button class="btn btn-outline-light nav-link" data-bs-toggle="modal" data-bs-target="#groupStaticBackdrop"  (click)="fetchGroups()">My Groups</button>
+              </li>
+              <li class="nav-item" *ngIf="loginStatus">
+                <button class="btn btn-outline-light nav-link" routerLink="/create-group"  >Create Group</button>
+              </li>
+              <li class="nav-item d-flex text-white  fw-bolder" *ngIf="loginStatus">
+                <h3 class="m-0 p-0 align-self-center fw-bolder fs-5  text-uppercase">Hi! {{loggedInUserData.userName}}</h3>
+              </li>
+              <li class="nav-item mx-3" *ngIf="loginStatus">
+                <button class="btn btn-outline-light  rounded-5  nav-link" (click)="logOut()">Log Out</button>
+              </li>
+              <li class="nav-item" *ngIf="!loginStatus">
+                <button class="btn btn-outline-light nav-link " routerLink="/login">Login</button>
+              </li>
+              <li class="nav-item" *ngIf="!loginStatus">
+                <button class="btn btn-outline-light nav-link" routerLink="/sign-up">SignUp</button>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </nav>
+</div>
+
+<!-- Modal for Users List -->
+
+<!-- Modal -->
+<div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+  <div class="modal-dialog modal-xl">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="staticBackdropLabel">Friends</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body d-flex justify-content-center ">
+
+        <table class="table w-50 table-striped">
+          <thead>
+            <tr>
+              <!-- <th scope="col">#</th> -->
+              <th scope="col">Name</th>
+              <th scope="col">Status</th>
+              <th scope="col">Message</th>
+
+              
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let user of UsersList">
+              <!-- <th scope="row">1</th> -->
+              <td class="p-3">{{user.username}}</td>
+              <td class=" p-3">
+              <img *ngIf="user.online"  src="../../assets/online.png" alt="">
+              <img *ngIf="!user.online" src="../../assets/icons8-offline-50.png" alt="">
+
+              </td>
+             <td><button class="btn btn-primary btn-sm" data-bs-dismiss="modal" (click)="openChatDialog(user)">Send Message</button></td>
+            </tr>
+            
+          </tbody>
+        </table>
+
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" (click)="falseButton()">Close</button>
+        <button type="button" class="btn btn-primary">Understood</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- Modal for list all groups -->
+
+<div class="modal fade" id="groupStaticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+  <div class="modal-dialog modal-xl">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="staticBackdropLabel">Groups</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div *ngIf="myGroups!=null" class="modal-body d-flex justify-content-center "  style="max-height: 800px; overflow-y: auto;">
+
+        <table class="table w-75 table-striped" >
+          <thead>
+            <tr>
+              <!-- <th scope="col">#</th> -->
+              <th scope="col">Name</th>
+              
+
+              
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let group of myGroups">
+              <!-- <th scope="row">1</th> -->
+              <td class="p-3">{{group.groupName}}</td>
+              <!-- <td class=" p-3">
+              <img *ngIf="user.online"  src="../../assets/online.png" alt="">
+              <img *ngIf="!user.online" src="../../assets/icons8-offline-50.png" alt="">
+
+              </td> -->
+             <td><button class="btn btn-primary btn-sm" data-bs-dismiss="modal" (click)="openGroupDialog(group)">Group Chat</button></td>
+             <td><button class="btn btn-danger btn-sm" data-bs-dismiss="modal" (click)="leaveGroup(group._id,myId,group.groupName)">Leave Group</button></td>
+             <td *ngIf="group.createdBy==myId"><button class="btn btn-danger btn-sm" data-bs-dismiss="modal" (click)="deleteGroup(group._id,group.groupName)">Delete Group</button></td>
+
+
+            </tr>
+            
+          </tbody>
+        </table>
+
+
+      </div>
+
+      <div *ngIf="myGroups==null">
+        <p class="m-3">This User has no Groups</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary">Understood</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- <div class="card flex justify-content-center gap-2">
+  <p-toast></p-toast>
+  <p-confirmDialog></p-confirmDialog>
+  <p-button (click)="confirm1($event)" icon="pi pi-check" label="Confirm"></p-button>
+   <p-button (click)="confirm2($event)" icon="pi pi-times" label="Delete" styleClass="p-button-danger"></p-button> -->
+<!-- </div> --> 

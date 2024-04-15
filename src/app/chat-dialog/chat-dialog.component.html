@@ -1,0 +1,48 @@
+<!-- chat-dialog.component.html -->
+<div class="container">
+  <h2 mat-dialog-title class="bg-primary w-100 text-white  m-0 ">
+    Chatting with <span class="text-uppercase fs-4 fw-bolder"> {{ user.username }}</span>
+  </h2>
+
+  <mat-dialog-content class="mat-typography">
+    <!-- Add your chat UI components here  -->
+     <!-- <div class="send-message-container">
+      <div *ngFor="let sentMessage of sentMessages" class="sent-message">
+        {{ sentMessage }}
+      </div>
+    </div>
+    <div class="received-message-container">
+      <div *ngFor="let Message of receivedMessages" class="sent-message">
+        {{ Message.message }}
+      </div>
+    </div> -->
+
+    <div class="chat-container">
+      <div  *ngFor="let chatMessage of chatMessages" class="{{ chatMessage.type }}-message ">
+       <h3 class="message"> {{ chatMessage.message }} <br> </h3>
+        <p class="timeLine"> <span>{{chatMessage.Time.slice(0,5) }}</span></p>
+      </div>
+    </div>
+
+    <textarea
+      [(ngModel)]="message"
+      placeholder="Type your message..."
+    ></textarea>
+    <button (click)="sendMessage(message, user._id)" class="btn btn-success">
+      Send
+    </button>
+  </mat-dialog-content>
+</div>
+<mat-dialog-actions align="end">
+  <button mat-button mat-dialog-close class="bg-danger w-100 text-white">Close</button>
+  <!-- <button mat-button [mat-dialog-close]="true" cdkFocusInitial>Install</button> -->
+</mat-dialog-actions>
+<audio #receivedMessageTone>
+
+  <source src="../../assets/iphone_sms_original.mp3" type="audio/mp3">
+  
+  Your browser does not support the audio element.
+</audio>
+
+
+

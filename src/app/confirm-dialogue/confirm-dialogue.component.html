@@ -1,0 +1,12 @@
+<h2 mat-dialog-title>{{confirmdata.heading}}</h2>
+<!-- <mat-dialog-content>
+  <p>What's your favorite animal?</p>
+  <mat-form-field>
+    <mat-label>Favorite Animal</mat-label>
+    <input matInput [(ngModel)]="data.animal">
+  </mat-form-field>
+</mat-dialog-content> -->
+<mat-dialog-actions>
+  <button mat-button (click)="confirmButton(true)" >{{confirmdata.okButton}}</button>
+  <button mat-button (click)="confirmButton(false)" cdkFocusInitial>Cancel</button>
+</mat-dialog-actions>

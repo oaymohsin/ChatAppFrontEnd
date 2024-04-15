@@ -1,0 +1,38 @@
+/* Customize the footer styles as needed */
+.footer {
+    background-color: #007bff; /* Blue footer color */
+    color: #ffffff; /* White text color */
+    padding: 20px 0;
+  }
+
+  .footer-text {
+    font-size: 1.2rem;
+    margin-bottom: 20px;
+  }
+
+  .footer-icons i {
+    font-size: 30px;
+    margin-right: 15px;
+    color: #ffffff; /* White color for icons */
+  }
+
+  .footer-contact i {
+    font-size: 20px;
+    margin-right: 10px;
+    color: #ffffff; /* White color for icons */
+  }
+
+  /* Add hover effect to social media icons */
+  .footer-icons i:hover {
+    color: #f8f9fa; /* Light gray color on hover */
+  }
+  .footer {
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    
+    background-color: #007bff; /* Blue footer color */
+    color: #ffffff; /* White text color */
+    padding: 20px 0;
+}

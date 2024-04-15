@@ -1,0 +1,117 @@
+.container {
+
+    padding: 0%;
+    height: 700px;
+    width: 500px;
+    overflow: hidden;
+  }
+  
+  mat-dialog-content {
+    height: 640px;
+  
+    display: flex;
+    flex-direction: column;
+    /* flex-grow: 1; */
+    /* background: #e44444; */
+    justify-content: end;
+    align-items: center;
+    overflow-y:scroll;
+  }
+  
+  mat-dialog-content textarea {
+    width: 100%;
+    padding: 10px;
+  }
+  
+  mat-dialog-content button {
+    align-self: flex-end;
+  }
+  
+  .goup-chat-container .sent-message {
+    background: #93d0e9;
+    padding: 15px;
+    /* border-top-left-radius: 50px  ; */
+    border-radius: 10px;
+    margin-bottom: 10px;
+    /* overflow-y: auto; */
+    /* overflow-x: hidden; */
+    /* word-wrap: break-word; */
+    /* overflow-wrap: break-word; */
+    max-width: 60%;
+    /* width: max-content; */
+    overflow-wrap: break-word;
+    align-self: flex-end;
+  }
+  
+  /* .send-message-container {
+     
+      max-height: 600px;
+      width: 430px; 
+      overflow-y: auto;
+      overflow-x: hidden;
+      
+      
+      display: flex;
+      flex-direction: column;
+      align-items: end;
+    }   */
+  
+  .goup-chat-container {
+  
+    /* align-self: flex-end; */
+    max-height: 600px;
+    width: 430px;
+    overflow-y: auto;
+    overflow-x: hidden;
+  
+    /* background: #ab3838; */
+    display: flex;
+    flex-direction: column;
+    /* align-items: start; */
+  
+  }
+  
+  .goup-chat-container .received-message {
+    background: #cf7341;
+    color: white;
+    padding: 15px;
+    /* border-radius: 50px 10px 30px 60px / 10px 50px 60px 30px  ; */
+    border-radius: 10px;
+  
+    margin-bottom: 10px;
+    /* overflow-y: auto; */
+    /* overflow-x: hidden; */
+    /* word-wrap: break-word; */
+    /* overflow-wrap: break-word; */
+    max-width: 60%;
+    /* width: max-content; */
+    overflow-wrap: break-word;
+    align-self: flex-start;
+  
+  }
+
+  .admin-badge{
+    background-color: rgb(16, 124, 16);
+    font-size: xx-small;
+    color: white;
+    padding: 3px 5px;
+    border-radius: 5px;
+    margin-left: 5px
+  }
+
+  .rm-member-button{
+    font-size: small;
+    padding: 3px 5px;
+    border-radius: 5px;
+  }
+
+  .rowData{
+    margin-top: 20px;
+    overflow-y: hidden;
+    overflow-x: hidden;
+  }
+
+  .fa-arrow-left:hover{
+    cursor: pointer;
+    color: aqua;
+  }

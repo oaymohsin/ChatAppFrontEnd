@@ -1,0 +1,43 @@
+<div class="container mt-5 " cdkDrag >
+    <form class="" [formGroup]="form" (submit)="login()">
+      <mat-card class=" m-auto">
+          <h1 class="text-center m-5 bg-primary p-3 text-white">Login Here</h1>
+        
+        <mat-form-field class="w-75 m-auto" >
+          <input
+            matInput
+            type="email"
+            formControlName="email"
+            value=""
+            placeholder="Email"
+            required
+          />
+          <mat-error *ngIf="form.controls.email.invalid">Please enter a valid email.</mat-error>
+  
+        </mat-form-field>
+        <mat-form-field class="w-75 m-auto">
+          <input
+            matInput
+            type="password"
+            formControlName="password"
+            value=""
+            placeholder="Password"
+            required
+          />
+          <mat-error *ngIf="form.controls.password.invalid">Please enter a valid password.</mat-error>
+        </mat-form-field>
+        <!-- <br /> -->
+        <button
+          mat-raised-button
+          class="m-auto mt-3 mb-3  p-4"
+          color="accent"
+          type="submit"
+          
+        >
+          Login
+        </button>
+      </mat-card>
+    </form>
+  </div>
+  
+  
