@@ -132,8 +132,13 @@ export class GroupChatDialogComponent implements OnInit, OnDestroy {
       (data: any) => {
         console.log(data.message);
         this.showGroupMembers(groupId);
+        this.userService.alert(data.message)
+        this.SocketService.fetchGroupById(groupId).subscribe((response: any) => {
+          this.group = response.group;
+        });
       }
     );
+    
   }
 
   removeAdmin(memberId: any, groupId: any) {
@@ -141,6 +146,11 @@ export class GroupChatDialogComponent implements OnInit, OnDestroy {
       (data: any) => {
         console.log(data.message);
         this.showGroupMembers(groupId);
+        this.userService.alert(data.message)
+
+        this.SocketService.fetchGroupById(groupId).subscribe((response: any) => {
+          this.group = response.group;
+        });
       }
     );
     // this.group=data.groupData;
@@ -158,28 +168,29 @@ export class GroupChatDialogComponent implements OnInit, OnDestroy {
 
     // Fetch group members first
     this.SocketService.fetchGroupMembers(groupId).subscribe((result: any) => {
-      groupMembersArray = result.members;  // Assuming this is an array of objects like [{id: '1', name: 'User1'}, ...]
+      groupMembersArray = result.members; // Assuming this is an array of objects like [{id: '1', name: 'User1'}, ...]
 
       // Now fetch all users
       this.userService.fetchAllUsers().subscribe((response: any) => {
-        const allMembersArray = response.result;  // Assuming this is an array of user objects like [{id: '1', name: 'User1'}, ...]
+        const allMembersArray = response.result; // Assuming this is an array of user objects like [{id: '1', name: 'User1'}, ...]
 
         // Filter to find all users that are not in group members array
-        // this.allUsers = allMembersArray.filter((member: any) => 
+        // this.allUsers = allMembersArray.filter((member: any) =>
         //   !groupMembersArray.some((groupMember: any) => groupMember.id === member.id)
-        // );        
+        // );
 
         this.allUsers = allMembersArray.filter((member: any) => {
           // Check if the member is found in the groupMembersArray
           const isMember = !groupMembersArray.some((groupMember: any) => {
             const match = groupMember._id === member._id;
-            console.log(`Checking ${member._id} against ${groupMember._id}: ${match}`);
+            console.log(
+              `Checking ${member._id} against ${groupMember._id}: ${match}`
+            );
             return match;
           });
-          console.log(isMember)
+          console.log(isMember);
           return isMember;
         });
-        
 
         // console.log(`Group members array: `, groupMembersArray);
         // console.log(`All members array: `, allMembersArray);
@@ -187,11 +198,17 @@ export class GroupChatDialogComponent implements OnInit, OnDestroy {
         this.addGroupMembers = true;
       });
     });
-}
+  }
 
-addToGroup(userId:any,groupId:any){
-  this.userService.addUserToGroup(userId,groupId).subscribe((Response:any)=>{
-    this.userService.alert(Response.message)
-  })
-}
+  addToGroup(userId: any, groupId: any) {
+    this.userService
+      .addUserToGroup(userId, groupId)
+      .subscribe((Response: any) => {
+        this.userService.alert(Response.message);
+      });
+
+    this.allUsers = this.allUsers.filter((user: any) => {
+      return user._id !== userId;
+    });
+  }
 }
